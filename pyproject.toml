@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cutonbeat"
+version = "0.1.0"
+description = "Beat-cut music videos, Shorts and thumbnails from a song and a folder of clips. numpy + Pillow + ffmpeg."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.22", "Pillow>=10.1"]
+
+[project.scripts]
+cutonbeat = "cutonbeat.cli:main"
+
+[tool.setuptools]
+packages = ["cutonbeat"]

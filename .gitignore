@@ -1,0 +1,6 @@
+__pycache__/
+*.egg-info/
+renders/
+demo-out/
+*.mp4
+*.wav
