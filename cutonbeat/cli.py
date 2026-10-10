@@ -81,7 +81,7 @@ def text_png(path, size, lines, font_path, scrim=0):
         yy = np.linspace(-1, 1, size[1])[:, None]
         band = np.zeros((size[1], size[0], 4), np.uint8)
         band[..., 3] = np.broadcast_to((scrim * np.exp(-(yy / 0.45) ** 2)).astype(np.uint8), (size[1], size[0]))
-        img = Image.fromarray(band, "RGBA")
+        img = Image.fromarray(band)
     d = ImageDraw.Draw(img)
     y = (size[1] - sum(px for _, px in lines) - 20 * (len(lines) - 1)) // 2
     for text, px in lines:
@@ -248,7 +248,7 @@ def main(argv=None):
         im = Image.open(p).convert("RGB").resize((1280, 720))
         if title or artist:
             g = np.clip(np.linspace(-0.2, 1, 720), 0, 1)[:, None] * np.clip(np.linspace(1.3, 0, 1280), 0, 1)[None, :]
-            im = Image.composite(Image.new("RGB", im.size), im, Image.fromarray((g * 200).astype(np.uint8), "L"))
+            im = Image.composite(Image.new("RGB", im.size), im, Image.fromarray((g * 200).astype(np.uint8)))
             d = ImageDraw.Draw(im)
             if title:
                 d.text((48, 470), title, font=font(a.font, 132), fill=(255, 255, 255), stroke_width=8, stroke_fill=(0, 0, 0))
