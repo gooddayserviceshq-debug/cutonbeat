@@ -15,5 +15,5 @@ for i, pat in enumerate(["testsrc2", "smptehdbars", "rgbtestsrc", "testsrc", "ma
     test_clip(os.path.join(src, "clips", f"{i:02d}_{pat}.mp4"), seconds=8, pattern=pat, hue=i * 50)
 sys.exit(subprocess.call([sys.executable, "-m", "cutonbeat", "--song", song, "--clips", os.path.join(src, "clips"),
                           "--out", os.path.join(out, "render"), "--title", "Test Pattern", "--artist", "cutonbeat",
-                          "--end-text", "github.com/<you>/cutonbeat", "--short-seconds", "15"],
+                          "--end-text", "github.com/gooddayserviceshq-debug/cutonbeat", "--short-seconds", "15"],
                          cwd=os.path.join(os.path.dirname(__file__), "..")))
