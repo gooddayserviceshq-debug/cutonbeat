@@ -6,6 +6,12 @@ a QC report out. One command, two Python dependencies (numpy, Pillow) plus ffmpe
 Built for the AI-video workflow: you have a generated song and a dozen 8-second generated
 clips, and you need a channel-ready upload pack, not a timeline to drag around.
 
+![A naive beat grid cuts on the hi-hat, 235 ms late; cutonbeat cuts on the kick, 23 ms off](docs/beatgrid.png)
+
+Most beat trackers find the tempo fine and then cut half a beat late, on the off-beat hi-hat.
+cutonbeat takes the phase from the kick band (above: synthetic 124 BPM track; redraw it with
+`python3 scripts/beatgrid_figure.py docs/beatgrid.png`, pinned by `test_naive_grid_locks_onto_hats`).
+
 ```bash
 pip install .                  # from a clone; needs ffmpeg on PATH
 cutonbeat --song song.wav --clips clips/ --out renders/ \
