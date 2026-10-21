@@ -32,16 +32,17 @@ def onset_env(mono, sr=SR, lo=None, hi=None):
     return np.maximum(flux - np.convolve(flux, np.ones(16) / 16, "same"), 0), sr / HOP
 
 
-def beat_grid(mono, sr=SR, bpm_range=(70, 190)):
+def beat_grid(mono, sr=SR, bpm_range=(70, 190), kick_phase=True):
     """Returns (beat times in seconds, bpm, kick onset times in seconds).
 
     Tempo comes from full-band flux. Phase comes mostly from the kick band: full-band flux
     weights broadband hi-hats as heavily as kicks, so on a track with off-beat hats it locks
-    the grid onto the "and" of every beat, half a beat away from where a cut should land."""
+    the grid onto the "and" of every beat, half a beat away from where a cut should land.
+    kick_phase=False gives that naive full-band grid, for comparison only."""
     flux, fps = onset_env(mono, sr)
     kick, _ = onset_env(mono, sr, 30, 150)
     # Kick-band weighting only when there is a kick to weight; ambient tracks fall back to flux.
-    has_kick = kick.sum() > 0.02 * flux.sum()
+    has_kick = kick_phase and kick.sum() > 0.02 * flux.sum()
     phase_env = flux / (flux.max() + 1e-9) + (3 * kick / (kick.max() + 1e-9) if has_kick else 0)
     ac = np.correlate(flux, flux, "full")[len(flux) - 1:]
     lags = np.arange(len(ac)) / fps

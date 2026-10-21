@@ -21,6 +21,15 @@ class TestBeatGrid(unittest.TestCase):
             self.assertLess(off.max(), 1 / 24, f"{bpm} bpm: beat {off.max() * 1000:.0f} ms from a kick")
             self.assertLess(np.median(np.abs(((kicks + P / 2) % P) - P / 2)), 0.03)
 
+    def test_naive_grid_locks_onto_hats(self):
+        """Guards the test above: if the fixture stopped fooling full-band flux, that test would
+        pass for free. The naive grid must sit near the off-beat, a third of a beat or more late."""
+        for bpm in (92.0, 143.0):
+            P = 60 / bpm
+            beats, _, _ = beat_grid(drum_track(bpm, 90), kick_phase=False)
+            off = np.abs(((beats + P / 2) % P) - P / 2)
+            self.assertGreater(np.median(off), P / 3, f"{bpm} bpm: naive grid {np.median(off) * 1000:.0f} ms")
+
     def test_grid_does_not_drift(self):
         """Last beat of a 3-minute song still lands within 30 ms of a real kick."""
         bpm = 128.0
